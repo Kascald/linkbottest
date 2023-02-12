@@ -73,16 +73,14 @@ async def on_message(message):
         await message.edit(content='ㅋㅋ루삥뽕')
 
     check = []
-    if 'http' in content:
+    if 'http' in content and message.channel != 1056575267121930290:
         print('http링크 추정 문자열 발견')
-        if message.channel == 1056575267121930290:
-            return
         for idx, val in enumerate(youtube):
             if val in content:
                 print('유투브 링크가 맞는거 같아요!')
                 check.append(idx)
         # print(len(check))
-        if len(check) != 0:
+        if len(check) != 0 and message.channel != 1056575267121930290:
             hotclip_channel = bot.get_channel(1056575267121930290)  # hotclip channel id
             # print(hotclip_channel)
 
