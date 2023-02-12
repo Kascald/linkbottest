@@ -14,6 +14,10 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 #         self.tagname = tagname
 #         self.tagid = tagid
 
+hotclip_id = 0
+log_id = 0
+command_id = 0
+
 
 async def setup_hook():
     await bot.tree.sync()
@@ -22,11 +26,12 @@ async def setup_hook():
 @bot.event
 async def on_ready():
 
-    # for guilds in bot.guilds: 서버확인
-    # print(f"서버 이름 : {guilds.name} , 서버 id : {guilds.id }")
+    for guilds in bot.guilds:  # 서버확인
+        print(f"서버 이름 : {guilds.name} , 서버 id : {guilds.id }")
+
     print("ready!")
     activity = discord.Game('감지')
-    all_channel = bot.get_all_channels()
+    # all_channel = bot.get_all_channels()
     # # print('all_channel   ----  ', all_channel)
     # for ch in all_channel:
     #     # print(f"채널명 : {ch.name} , 채널 id : {ch.id}")
@@ -39,6 +44,12 @@ async def on_ready():
 
 @bot.event
 async def on_message_delete(message):
+    global hotclip_id
+    global log_id
+    global command_id
+
+    #  for guilds in bot.guilds:  # 서버확인
+    #  print(f"서버 이름 : {guilds.name} , 서버 id : {guilds.id }")
 
     content = message.content
     guild = message.guild
@@ -49,7 +60,8 @@ async def on_message_delete(message):
     all_channel = bot.get_all_channels()
     for ch in all_channel:
         if 'log' in ch.name or '로그' in ch.name or 'Log' in ch.name:
-            log_id = ch.id
+            if message.guild.name == ch.guild.name:
+                log_id = ch.id
 
     if 'http' in content:
         return
@@ -67,9 +79,26 @@ async def on_message_delete(message):
 
 @bot.event
 async def on_message(message):
-    #
-    # if message.guild.id != current_guild:
-    #     return
+    global hotclip_id
+    global log_id
+    global command_id
+
+    all_channel = bot.get_all_channels()
+    for ch in all_channel:
+        if '핫클립' in ch.name:
+            if message.guild.name == ch.guild.name:
+                hotclip_id = ch.id
+
+        elif 'log' in ch.name or '로그' in ch.name or 'Log' in ch.name:
+            if message.guild.name == ch.guild.name:
+                log_id = ch.id
+
+        elif '커맨드' in ch.name:
+            if message.guild.name == ch.guild.name:
+                command_id = ch.id
+            else:
+                command_id = log_id
+
     content = message.content
     guild = message.guild
     author = message.author
@@ -95,15 +124,7 @@ async def on_message(message):
         await message.edit(content='ㅋㅋ루삥뽕')
 
     check = []
-
     if 'http' in content:
-        all_channel = bot.get_all_channels()
-        for ch in all_channel:
-            if '핫클립' in ch.name:
-                hotclip_id = ch.id
-            if '커맨드' in ch.name:
-                command_id = ch.id
-
         if content.startswith('+'):
             return
 
@@ -144,6 +165,6 @@ async def on_message(message):
 async def ping(ctx):
     await ctx.channel.send('pong')
 
-token = os.environ["BOT_TOKEN"]
-
+# token = os.environ["BOT_TOKEN"]
+token = 'MTA3MzQ2MjI3MDU2MDA0MzA5OQ.GL1Mad.WUPloLQNsRjYV6cmhkwpnH8jVSOoeA9qin6R9w'
 bot.run(token)
