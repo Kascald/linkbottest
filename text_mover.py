@@ -3,9 +3,11 @@ from discord.ext import commands
 import datetime
 import os
 
-log_ch_id = os.environ["LOG_CHANNEL"]
-hotclip_ch_id = os.environ["HOTCLIP_CHANNEL"]
+# log_ch_id = os.environ["LOG_CHANNEL"]
+# tclip_ch_id = os.environ["HOTCLIP_CHANNEL"]
 
+log_ch_id = 1073635083577196625
+tclip_ch_id = 1056575267121930290
 
 intents = discord.Intents.default()
 intents.message_content = True
