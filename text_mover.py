@@ -165,5 +165,5 @@ async def on_message(message):
 async def ping(ctx):
     await ctx.channel.send('pong')
 
-# token = os.environ["BOT_TOKEN"]
+token = os.environ["BOT_TOKEN"]
 bot.run(token)
