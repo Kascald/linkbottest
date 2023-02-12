@@ -3,8 +3,8 @@ from discord.ext import commands
 import datetime
 import os
 
-log_ch_id = os.environ["LOG_CHANNEL"]
-hotclip_ch_id = os.environ["HOTCLIP_CHANNEL"]
+# log_ch_id = os.environ["LOG_CHANNEL"]
+# hotclip_ch_id = os.environ["HOTCLIP_CHANNEL"]
 
 # log_ch_id = 1073635083577196625
 # hotclip_ch_id = 1056575267121930290
@@ -35,7 +35,7 @@ async def on_message_delete(message):
     print('Detect message delete')
     if 'http' in content:
         return
-    logchannel = bot.get_channel(log_ch_id)  # log channel id
+    logchannel = bot.get_channel(1073635083577196625)  # log channel id
 
     n = datetime.datetime.now()
     time = f'{str(n.year)}년 {str(n.month)}월 {str(n.day)}일 {str(n.hour)}시 {str(n.minute)}분 {str(n.second)}초'
@@ -81,13 +81,13 @@ async def on_message(message):
                 check.append(idx)
         # print(len(check))
         if len(check) != 0:
-            hotclip_channel = bot.get_channel(hotclip_ch_id)  # hotclip channel id
+            hotclip_channel = bot.get_channel(1056575267121930290)  # hotclip channel id
             # print(hotclip_channel)
 
             embed = discord.Embed(title=f'영상 링크가 [{message.guild.name}] 의 {channel} 에서 감지되었어요!',
                                   description='똑똑한 봇이 이동처리 할게요!', color=0x00A2F4)
             embed.add_field(name=f"영상 공유한 사람 : ", value=f"{author.nick}", inline=False)
-            embed.add_field(name='', value=f"핫클립😝 채널에 가서 확인해봐요!  👉🏻 {bot.get_channel(hotclip_ch_id).mention}")
+            embed.add_field(name='', value=f"핫클립😝 채널에 가서 확인해봐요!  👉🏻 {bot.get_channel(1056575267121930290).mention}")
             # hotclip channel id
 
             # print(embed)
