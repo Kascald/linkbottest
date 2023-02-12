@@ -75,6 +75,8 @@ async def on_message(message):
     check = []
     if 'http' in content:
         print('http링크 추정 문자열 발견')
+        if message.channel == 1056575267121930290:
+            return
         for idx, val in enumerate(youtube):
             if val in content:
                 print('유투브 링크가 맞는거 같아요!')
