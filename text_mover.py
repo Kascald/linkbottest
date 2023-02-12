@@ -93,7 +93,8 @@ async def on_message(message):
             # print(embed)
             after = f'{author.nick} 님이 공유해주신 영상이예요. \n {content}'
             # print(after)
-
+            
+            await message.delete()
             await message.channel.send(content='이 메시지는 유투브 링크이므로 봇이 이동처리 했어요!')
             await message.channel.send(embed=embed)
             await hotclip_channel.send(after)
