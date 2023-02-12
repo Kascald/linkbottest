@@ -8,28 +8,38 @@ intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 
+# class nametag:
+#
+#     def __init__(self, tagname, tagid):
+#         self.tagname = tagname
+#         self.tagid = tagid
+
+
 async def setup_hook():
     await bot.tree.sync()
 
 
 @bot.event
 async def on_ready():
-    print("ready!")
 
+    # for guilds in bot.guilds: 서버확인
+    # print(f"서버 이름 : {guilds.name} , 서버 id : {guilds.id }")
+    print("ready!")
     activity = discord.Game('감지')
     all_channel = bot.get_all_channels()
-    print('all_channel   ----  ', all_channel)
-    for ch in all_channel:
-        print(f"채널명 : {ch.name} , 채널 id : {ch.id}")
-        if '핫클립' in ch.name:
-            hotclip_id = ch.id
-        if 'log' in ch.name or '로그' in ch.name or 'Log' in ch.name:
-            log_id = ch.id
+    # # print('all_channel   ----  ', all_channel)
+    # for ch in all_channel:
+    #     # print(f"채널명 : {ch.name} , 채널 id : {ch.id}")
+    #     if '핫클립' in ch.name:
+    #         hotclip_id = ch.id
+    #     if 'log' in ch.name or '로그' in ch.name or 'Log' in ch.name:
+    #         log_id = ch.id
     await bot.change_presence(status=discord.Status.online, activity=activity)
 
 
 @bot.event
 async def on_message_delete(message):
+
     content = message.content
     guild = message.guild
     author = message.author
@@ -43,7 +53,7 @@ async def on_message_delete(message):
 
     if 'http' in content:
         return
-    # logchannel = bot.get_channel(1073463405136072764)  # log channel id
+
     logchannel = bot.get_channel(log_id)
 
     n = datetime.datetime.now()
@@ -57,6 +67,9 @@ async def on_message_delete(message):
 
 @bot.event
 async def on_message(message):
+    #
+    # if message.guild.id != current_guild:
+    #     return
     content = message.content
     guild = message.guild
     author = message.author
@@ -88,9 +101,16 @@ async def on_message(message):
         for ch in all_channel:
             if '핫클립' in ch.name:
                 hotclip_id = ch.id
+            if '커맨드' in ch.name:
+                command_id = ch.id
+
+        if content.startswith('+'):
+            return
+
         # print(message.channel.id)
-        print(f"메시지 채널 타입{type(message.channel)} , 핫클립 채널id 타입 {type(hotclip_id)}")
-        if message.channel != hotclip_id:
+        # print(f"메시지 채널 타입{type(message.channel)} , 핫클립 채널id 타입 {type(hotclip_id)}")
+
+        if message.channel != hotclip_id and message.channel != command_id:
             print('http링크 추정 문자열 발견')
             for idx, val in enumerate(youtube):
                 if val in content:
@@ -120,9 +140,10 @@ async def on_message(message):
             await hotclip_channel.send(after)
 
 
-@bot.command(name='ping')
-async def ping(message):
-    await message.channel.send('pong')
+@bot.command()
+async def ping(ctx):
+    await ctx.channel.send('pong')
 
 token = os.environ["BOT_TOKEN"]
+
 bot.run(token)
