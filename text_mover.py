@@ -186,6 +186,11 @@ async def on_message(message):
         if content.startswith('+'):
             return
 
+        here = bot.get_channel(message.channel.id)
+        print(here.category.name)
+        if 'MAIN' not in here.category.name:
+            return
+
         # print(message.channel.id)
         # print(f"메시지 채널 타입{type(message.channel)} , 핫클립 채널id 타입 {type(hotclip_id)}")
 
@@ -227,5 +232,6 @@ async def ping(ctx):
     await bot.process_commands(ctx)
 
 token = os.environ["BOT_TOKEN"]
+
 
 bot.run(token)
