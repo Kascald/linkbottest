@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 import datetime
 import os
-import asynsio
 
 # log_ch_id = os.environ["LOG_CHANNEL"]
 # hotclip_ch_id = os.environ["HOTCLIP_CHANNEL"]
@@ -96,7 +95,6 @@ async def on_message(message):
             # print(after)
 
             await message.channel.send(content='이 메시지는 유투브 링크이므로 봇이 이동처리 했어요!')
-            await asyncio.sleep(1)
             await message.channel.send(embed=embed)
             await hotclip_channel.send(after)
 
