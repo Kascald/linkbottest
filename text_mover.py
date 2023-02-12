@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import datetime
 import os
+import asynsio
 
 # log_ch_id = os.environ["LOG_CHANNEL"]
 # hotclip_ch_id = os.environ["HOTCLIP_CHANNEL"]
